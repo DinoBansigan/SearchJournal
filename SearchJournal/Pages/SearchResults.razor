@@ -1,0 +1,60 @@
+﻿@page "/SearchResults"
+@inject NavigationManager navManager
+
+<h1 class="mb-3 text-primary text-center">Search Results</h1>
+
+@if (searchResults == null)
+{
+    <div class="spinner"></div>
+}
+else
+{
+    if (searchResults.Count == 0)
+    {
+        <p>Could not find results for "<span>@searchKey</span>"</p>
+    }
+    else
+    {
+        <hr />
+        <ul>
+            @foreach (var result in searchResults)
+            {
+                string title = string.IsNullOrEmpty(result.Title) ? "Untitled Post" : result.Title;
+                UriBuilder uriBuilder = new UriBuilder("https://journal.dinobansigan.com/" + result.Slug);
+                string publishedDate = result.CreateDate.ToString("yyyy-MM-dd: ");
+                string linkText = publishedDate + title;
+                <li><h4 class="text-primary"><a href="@uriBuilder.ToString()" target="_blank">@linkText</a></h4></li>
+            }
+        </ul>
+        <div class="mt-4 mb-4 text-center">
+            <button class="btn btn-primary btn-lg" @onclick="NavigateBackToSearchPage">Search Again</button>
+        </div>
+    }
+}
+
+@code {
+    string searchKey { get; set; }
+    List<WriteAs.NET.Client.Models.Post> searchResults = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = navManager.ToAbsoluteUri(navManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("searchKey", out var param))
+        {
+            searchKey = param.First();
+        }
+
+        if (!string.IsNullOrEmpty(searchKey))
+        {
+            using (var client = new WriteAs.NET.WriteAsClient("https://write.as/"))
+            {
+                searchResults = await client.Search("dino", searchKey, WriteAs.NET.Shared.SortOrder.Descending);
+            }
+        }
+    }
+
+    private void NavigateBackToSearchPage()
+    {
+        navManager.NavigateTo("/");
+    }
+}

@@ -1,0 +1,33 @@
+﻿@page "/"
+@inject NavigationManager navManager
+
+<h1 class="text-center text-primary">Search Dino's Journal</h1>
+<div class="text-center">
+    <div class="p-2">
+        <input class="form-control form-control-lg w-50 mx-auto mt-4" placeholder="Enter search keyword" @bind-value="searchKey" />
+    </div>
+    <div class="p-2">
+        <button class="btn btn-primary btn-lg" @onclick="HandleSearch">Search</button>
+    </div>
+    <div class="p-2">
+        <p class="text-danger">@errorMessage</p>
+    </div>
+</div>
+
+@code {
+    string searchKey;
+    string errorMessage;
+
+    private void HandleSearch()
+    {
+        if (string.IsNullOrEmpty(searchKey))
+        {
+            errorMessage = "Please enter a search keyword before clicking the Search button...";
+        }
+        else
+        {
+            var query = new Dictionary<string, string> { { "searchKey", searchKey } };
+            navManager.NavigateTo(QueryHelpers.AddQueryString(navManager.BaseUri + "SearchResults", query));
+        }
+    }
+}
