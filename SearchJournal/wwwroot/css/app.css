@@ -148,6 +148,19 @@ app {
     .main .top-row a, .main .top-row .btn-link {
         margin-left: 0;
     }
+
+    .spinner {
+        border: 16px solid silver;
+        border-top: 16px solid #337AB7;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        animation: spin 700ms linear infinite;
+        top: 30%;
+        left: 46%;
+        z-index: 999;
+        position: fixed;
+    }
 }
 
 @media (min-width: 768px) {
@@ -180,19 +193,19 @@ app {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
-}
 
-.spinner {
-    border: 16px solid silver;
-    border-top: 16px solid #337AB7;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    animation: spin 700ms linear infinite;
-    top: 30%;
-    left: 50%;
-    z-index: 999;
-    position: fixed;
+    .spinner {
+        border: 16px solid silver;
+        border-top: 16px solid #337AB7;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        animation: spin 700ms linear infinite;
+        top: 30%;
+        left: 48%;
+        z-index: 999;
+        position: fixed;
+    }
 }
 
 @keyframes spin {

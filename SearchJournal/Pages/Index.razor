@@ -1,10 +1,10 @@
 ﻿@page "/"
 @inject NavigationManager navManager
 
-<h1 class="text-center text-primary">Search Dino's Journal</h1>
+<h1 class="text-center text-primary">Search <a href="https://journal.dinobansigan.com/" target="_blank">Dino's Journal</a></h1>
 <div class="text-center">
     <div class="p-2">
-        <input class="form-control form-control-lg w-50 mx-auto mt-4" placeholder="Enter search keyword" @bind-value="searchKey" />
+        <input class="form-control form-control-lg w-50 mx-auto mt-4" placeholder="Enter search keyword" @bind-value="searchKey" @onkeyup="@HandleEnterKey" />
     </div>
     <div class="p-2">
         <button class="btn btn-primary btn-lg" @onclick="HandleSearch">Search</button>
@@ -28,6 +28,14 @@
         {
             var query = new Dictionary<string, string> { { "searchKey", searchKey } };
             navManager.NavigateTo(QueryHelpers.AddQueryString(navManager.BaseUri + "SearchResults", query));
+        }
+    }
+
+    private void HandleEnterKey(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            HandleSearch();
         }
     }
 }
