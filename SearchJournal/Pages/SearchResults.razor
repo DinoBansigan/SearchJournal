@@ -1,11 +1,10 @@
 ﻿@page "/SearchResults"
 @inject NavigationManager navManager
 
-<h1 class="mb-3 text-primary text-center text-dark">Search Results</h1>
-
 @if (searchResults == null)
 {
-    <div class="spinner"></div>
+    <h2 class="mb-3 text-primary text-center text-dark">Searching for "<span class="font-weight-bold">@searchKey</span>"</h2>
+    <SpinKitFoldingCube />
 }
 else
 {
@@ -17,6 +16,7 @@ else
     }
     else
     {
+        <h2 class="mb-3 text-primary text-center text-dark">Search Results for "<span class="font-weight-bold">@searchKey</span>"</h2>
         <hr />
         <ul>
             @foreach (var result in searchResults)
